@@ -1,26 +1,393 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================
+   ARYAA BUILDERS — DESIGN SYSTEM
+   Premium Architectural Design Tokens
+   ============================================ */
+
+@theme {
+  --color-charcoal: #0B0B0A;
+  --color-offwhite: #F4F1EA;
+  --color-bronze: #B8A27C;
+  --color-white: #FFFFFF;
+  --color-charcoal-90: rgba(11, 11, 10, 0.9);
+  --color-charcoal-80: rgba(11, 11, 10, 0.8);
+  --color-charcoal-60: rgba(11, 11, 10, 0.6);
+  --color-charcoal-40: rgba(11, 11, 10, 0.4);
+  --color-charcoal-20: rgba(11, 11, 10, 0.2);
+  --color-offwhite-80: rgba(244, 241, 234, 0.8);
+  --color-offwhite-60: rgba(244, 241, 234, 0.6);
+  --color-bronze-60: rgba(184, 162, 124, 0.6);
+
+  --font-serif: var(--font-serif), "Georgia", serif;
+  --font-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+::selection {
+  background-color: #B8A27C;
+  color: #0B0B0A;
+}
+
+html {
+  scroll-behavior: auto; /* GSAP handles scroll */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-color: #F4F1EA;
+  color: #0B0B0A;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+.heading-serif {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.heading-serif-medium {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.label-sans {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.body-sans {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* ============================================
+   FOCUS STYLES
+   ============================================ */
+
+:focus-visible {
+  outline: 2px solid #B8A27C;
+  outline-offset: 4px;
+}
+
+/* ============================================
+   SCROLL VIDEO
+   ============================================ */
+
+.hero-video-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 11, 10, 0.45) 0%,
+    rgba(11, 11, 10, 0.1) 35%,
+    rgba(11, 11, 10, 0.1) 65%,
+    rgba(11, 11, 10, 0.55) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-text-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-text-layer > * {
+  pointer-events: auto;
+}
+
+/* ============================================
+   CONSTRUCTION STORY STAGES
+   ============================================ */
+
+.story-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #FFFFFF;
+  opacity: 0;
+  will-change: opacity, transform, filter;
+  pointer-events: none;
+}
+
+/* ============================================
+   ANIMATION KEYFRAMES
+   ============================================ */
+
+@keyframes scrollPulse {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   SECTION REVEALS
+   ============================================ */
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(50px);
+  will-change: opacity, transform;
+}
+
+.reveal-fade {
+  opacity: 0;
+  will-change: opacity;
+}
+
+.reveal-line {
+  width: 0;
+  will-change: width;
+}
+
+/* ============================================
+   ACCORDION / SERVICES
+   ============================================ */
+
+.service-row {
+  border-bottom: 1px solid rgba(11, 11, 10, 0.15);
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color 0.4s cubic-bezier(0.25, 0, 0.15, 1);
+}
+
+.service-row:hover {
+  background-color: rgba(184, 162, 124, 0.08);
+}
+
+.service-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.25, 0, 0.15, 1),
+              padding 0.5s cubic-bezier(0.25, 0, 0.15, 1);
+}
+
+.service-content.open {
+  max-height: 300px;
+  padding-bottom: 2rem;
+}
+
+.service-icon {
+  transition: transform 0.4s cubic-bezier(0.25, 0, 0.15, 1);
+}
+
+.service-icon.open {
+  transform: rotate(45deg);
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+
+.nav-backdrop {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* ============================================
+   MOBILE MENU
+   ============================================ */
+
+.mobile-menu {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 0.6s cubic-bezier(0.25, 0, 0.15, 1);
+}
+
+.mobile-menu.open {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ============================================
+   CTA BUTTON
+   ============================================ */
+
+.cta-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid currentColor;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.25, 0, 0.15, 1);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.cta-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.25, 0, 0.15, 1);
+  z-index: -1;
+}
+
+.cta-button:hover::before {
+  transform: scaleX(1);
+}
+
+.cta-button-light {
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.cta-button-light:hover {
+  color: #0B0B0A;
+  border-color: #FFFFFF;
+}
+
+.cta-button-light::before {
+  background: #FFFFFF;
+}
+
+.cta-button-dark {
+  color: #0B0B0A;
+  border-color: rgba(11, 11, 10, 0.2);
+}
+
+.cta-button-dark:hover {
+  color: #F4F1EA;
+  border-color: #0B0B0A;
+}
+
+.cta-button-dark::before {
+  background: #0B0B0A;
+}
+
+/* ============================================
+   PROCESS STEPS
+   ============================================ */
+
+.process-step {
+  opacity: 0.25;
+  transition: opacity 0.5s cubic-bezier(0.25, 0, 0.15, 1);
+}
+
+.process-step.active {
+  opacity: 1;
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal-up,
+  .reveal-fade {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .story-text {
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) !important;
+    filter: none !important;
+  }
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F4F1EA;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(11, 11, 10, 0.25);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(11, 11, 10, 0.5);
 }
