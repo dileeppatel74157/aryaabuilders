@@ -12,54 +12,60 @@ interface GSAPProviderProps {
 
 export default function GSAPProvider({ children }: GSAPProviderProps) {
   useEffect(() => {
+    // Respect reduced motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    const createdTriggers: ScrollTrigger[] = [];
+
     /* ---- reveal-up animations ---- */
     const revealEls = document.querySelectorAll(".reveal-up");
     revealEls.forEach((el) => {
-      gsap.to(el, {
-        y: 0,
-        opacity: 1,
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 88%",
-          toggleActions: "play none none none",
-        },
-      });
-    });
-
-    /* ---- reveal-fade animations ---- */
-    const fadeEls = document.querySelectorAll(".reveal-fade");
-    fadeEls.forEach((el) => {
-      gsap.to(el, {
-        opacity: 1,
-        duration: 1.4,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 90%",
-          toggleActions: "play none none none",
-        },
-      });
+      const anim = gsap.fromTo(
+        el,
+        { opacity: 0, y: 35 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+      if (anim.scrollTrigger) {
+        createdTriggers.push(anim.scrollTrigger);
+      }
     });
 
     /* ---- reveal-line animations ---- */
     const lineEls = document.querySelectorAll(".reveal-line");
     lineEls.forEach((el) => {
-      gsap.to(el, {
-        width: "100%",
-        duration: 1.4,
-        ease: "power2.inOut",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 90%",
-          toggleActions: "play none none none",
-        },
-      });
+      const anim = gsap.fromTo(
+        el,
+        { width: "0%" },
+        {
+          width: "100%",
+          duration: 1.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+      if (anim.scrollTrigger) {
+        createdTriggers.push(anim.scrollTrigger);
+      }
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      // Only clean up locally created triggers, preserving Hero pin trigger
+      createdTriggers.forEach((t) => t.kill());
     };
   }, []);
 

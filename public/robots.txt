@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aryaabuiders.com/sitemap.xml
+Sitemap: https://aryaabuilders.vercel.app/sitemap.xml

@@ -1,8 +1,8 @@
 import Navigation from "@/components/Navigation";
-import HeroConstruction from "@/components/HeroConstruction";
+import ConstructionHero from "@/components/ConstructionHero";
 import About from "@/components/About";
+import SelectedWork from "@/components/SelectedWork";
 import Process from "@/components/Process";
-import ConstructionStory from "@/components/ConstructionStory";
 import Services from "@/components/Services";
 import Craftsmanship from "@/components/Craftsmanship";
 import Location from "@/components/Location";
@@ -16,14 +16,31 @@ export default function Home() {
     <GSAPProvider>
       <Navigation />
       <main>
-        <HeroConstruction />
+        {/* Section 01: Scroll-Controlled Image-Sequence Hero */}
+        <ConstructionHero />
+
+        {/* Section 02: The Idea */}
         <About />
+
+        {/* Section 03: Selected Work */}
+        <SelectedWork />
+
+        {/* Section 04: Our Process (VISION -> DESIGN -> BUILD -> FINISH) */}
         <Process />
-        <ConstructionStory />
+
+        {/* Section 05: Services */}
         <Services />
+
+        {/* Section 06: Craftsmanship */}
         <Craftsmanship />
+
+        {/* Section 07: Jabalpur */}
         <Location />
+
+        {/* Section 08: Client Trust & Reviews */}
         <Reviews />
+
+        {/* Section 09: Final Consultation CTA */}
         <CTA />
       </main>
       <Footer />
